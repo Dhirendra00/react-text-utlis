@@ -1,24 +1,43 @@
-import logo from './logo.svg';
+ 
+import { useState } from 'react';
+import { Routes, Route, Link } from "react-router-dom";
+import {BrowserRouter as Router} from "react-router-dom";
 import './App.css';
+import Alert from './components/Alert';
+import Navbar from './components/Navbar';
+import TextForm from './components/TextForm';
+import About from './components/About';
+ 
+
 
 function App() {
+  //  const [mode, setMode] = useState('light');
+  const [alert, setAlert] = useState(null)
+
+  const showAlert = (message, type,color)=>{
+    setAlert({
+      msg:message,
+      type:type,
+      color:color
+    })
+    setTimeout(()=>{
+      setAlert(null)
+    },1500
+    );  
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <>
+   <Router>
+   <Navbar title="Text Utils" home="home" about="about"/>
+   <div className='container'>
+   <Alert alert={alert}/>
+   <Routes>
+        <Route path="/" element={<TextForm showAlert={showAlert} heading="Text Transformation"/>} />
+        <Route path="/about" element={<About />} />
+   </Routes>
+   </div>
+   </Router>
+   </>
   );
 }
 
